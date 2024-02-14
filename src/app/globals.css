@@ -4,6 +4,7 @@
 
 body {
   background-color: #1e1e1e;
+  color: #ffffff;
 }
 
 @layer components {
@@ -12,5 +13,8 @@ body {
   }
   .active_nav {
     @apply text-primary;
+  }
+  .order_btn {
+    @apply text-3xl font-normal py-2 px-4 bg-primary border-none rounded-full hover:brightness-105 active:scale-95 common_transition;
   }
 }

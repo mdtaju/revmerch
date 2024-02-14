@@ -35,12 +35,12 @@ const Navbar = () => {
                   <div className='hidden md:flex items-center justify-between'>
                         {/* logo */}
                         <Link href={"/"}>
-                              <h2 className='text-white text-4xl'>rev<span className='text-primary'>Merch</span></h2>
+                              <h2 className='text-4xl'><span className='text-primary'>rev</span>Merch</h2>
                         </Link>
 
                         {/* nav links */}
                         <nav>
-                              <ul className='text-white flex items-center text-lg gap-4'>
+                              <ul className='flex items-center text-lg gap-4'>
                                     {
                                           navlinks.map((item, i) => (
                                                 <li key={i} className={`cursor-pointer hover:text-primary hover:underline common_transition ${pathname === item.path ? "active_nav" : ""}`}>
@@ -60,7 +60,7 @@ const Navbar = () => {
                         <div className='p-4 flex items-center justify-between'>
                               {/* logo */}
                               <Link href={"/"}>
-                                    <h2 className='text-white text-4xl'>rev<span className='text-primary'>Merch</span></h2>
+                                    <h2 className=' text-4xl'><span className='text-primary'>rev</span>Merch</h2>
                               </Link>
 
                               {/* menu button */}
@@ -82,7 +82,7 @@ const Navbar = () => {
                                     </div>
                                     {/* lists */}
                                     <nav className='p-4'>
-                                          <ul className='flex flex-col gap-4 text-xl text-white'>
+                                          <ul className='flex flex-col gap-4 text-xl '>
                                                 {
                                                       navlinks.map((item, i) => (
                                                             <li key={i} className={`cursor-pointer  common_transition ${pathname === item.path ? "active_nav" : ""}`}>

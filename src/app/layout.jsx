@@ -4,7 +4,7 @@ import { ibm_flex_mono } from "@/utils/fonts.config";
 
 export const metadata = {
   title: "Revmerch International",
-  description: "Buy stylish hoodies from Revmerch International",
+  description: "Elevate Your Style with our High Quality Products",
 };
 
 export default function RootLayout({ children }) {
