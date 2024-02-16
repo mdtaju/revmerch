@@ -1,4 +1,3 @@
-import React from 'react';
 import Delivery from "../../../public/assets/images/offer/fast_delivery.svg";
 import Quality from "../../../public/assets/images/offer/top_quality.svg";
 import Customer from "../../../public/assets/images/offer/customer_service.svg";

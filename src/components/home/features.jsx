@@ -1,4 +1,3 @@
-import React from 'react';
 import ProductCard from '../reusable/ProductCard';
 
 const productColors = [
@@ -87,7 +86,15 @@ const Features = () => {
                         <div className='w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 items-stretch gap-8 justify-items-center mt-[100px] px-4 md:px-12'>
                               {
                                     products.map((product, i) => (
-                                          <ProductCard key={i} name={product.name} feedback={product.feedback} price={product.price} reviews={product.reviews} colors={product.colors} type={product.type} />
+                                          <ProductCard
+                                                key={i}
+                                                name={product.name}
+                                                feedback={product.feedback}
+                                                price={product.price}
+                                                reviews={product.reviews}
+                                                colors={product.colors}
+                                                type={product.type}
+                                          />
                                     ))
                               }
                         </div>

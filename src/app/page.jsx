@@ -4,10 +4,12 @@ import Offer from "@/components/home/offer";
 import Subscription from "@/components/home/subscription";
 
 export default function Home() {
-  return <main>
-    <Hero />
-    <Features />
-    <Subscription />
-    <Offer />
-  </main>;
+  return (
+    <main>
+      <Hero />
+      <Features />
+      <Subscription />
+      <Offer />
+    </main>
+  );
 }

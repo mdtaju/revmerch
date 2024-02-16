@@ -1,4 +1,3 @@
-import React from 'react';
 import HeroImage from "../../../public/assets/images/hero_hoodie.svg";
 import Image from 'next/image';
 
@@ -22,6 +21,7 @@ const Hero = () => {
                                           src={HeroImage}
                                           alt="hoodie"
                                           className='mx-auto'
+                                          priority
                                     />
                               </div>
                         </div>

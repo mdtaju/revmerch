@@ -1,6 +1,6 @@
 "use client";
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Img from "../../../public/assets/images/hero_hoodie.svg";
 import { roboto } from '@/utils/fonts.config';
 import { feedbackStar } from '@/utils/feedbackStars';
