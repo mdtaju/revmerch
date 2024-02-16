@@ -98,7 +98,7 @@ const ProductCard = ({ name = "Product Name", price = "1199", feedback = 4.5, re
                         {/* bottom area */}
                         <div>
                               {/* feedback */}
-                              <div className='flex items-center gap-2'>
+                              {/* <div className='flex items-center gap-2'>
                                     <div className='flex items-center gap-1'>
                                           {
                                                 feedbackCal.feedbackArr.map((item, i) => (
@@ -116,7 +116,7 @@ const ProductCard = ({ name = "Product Name", price = "1199", feedback = 4.5, re
                                           }
                                     </div>
                                     <span>{reviews}+</span>
-                              </div>
+                              </div> */}
                               {/* price */}
                               <h3 className='text-lg font-medium'>${price}</h3>
                         </div>
