@@ -1,7 +1,7 @@
 
 const Subscription = () => {
       return (
-            <div className='w-full max-w-[1990px] mx-auto bg-primary py-[80px] px-4'>
+            <section className='w-full max-w-[1990px] mx-auto bg-primary py-[80px] px-4'>
                   <div className='container mx-auto'>
                         <div className='flex items-center justify-between flex-col md:flex-row gap-8'>
                               {/* info */}
@@ -26,7 +26,7 @@ const Subscription = () => {
                               </div>
                         </div>
                   </div>
-            </div>
+            </section>
       );
 };
 

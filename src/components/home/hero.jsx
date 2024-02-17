@@ -1,4 +1,4 @@
-import HeroImage from "../../../public/assets/images/hero_hoodie.svg";
+import HeroImage from "/public/assets/images/hero_hoodie.svg";
 import Image from 'next/image';
 
 const Hero = () => {

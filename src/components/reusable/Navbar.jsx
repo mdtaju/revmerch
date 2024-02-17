@@ -85,7 +85,7 @@ const Navbar = () => {
                                           <ul className='flex flex-col gap-4 text-xl '>
                                                 {
                                                       navlinks.map((item, i) => (
-                                                            <li key={i} className={`cursor-pointer  common_transition ${pathname === item.path ? "active_nav" : ""}`}>
+                                                            <li onClick={navHandler} key={i} className={`cursor-pointer  common_transition ${pathname === item.path ? "active_nav" : ""}`}>
                                                                   <Link href={item.path}>
                                                                         {item.name}
                                                                   </Link>

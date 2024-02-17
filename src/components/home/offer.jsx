@@ -1,9 +1,9 @@
-import Delivery from "../../../public/assets/images/offer/fast_delivery.svg";
-import Quality from "../../../public/assets/images/offer/top_quality.svg";
-import Customer from "../../../public/assets/images/offer/customer_service.svg";
-import ReturnPolicy from "../../../public/assets/images/offer/return.svg";
-import Unique from "../../../public/assets/images/offer/unique.svg";
-import Community from "../../../public/assets/images/offer/big_community.svg";
+import Delivery from "/public/assets/images/offer/fast_delivery.svg";
+import Quality from "/public/assets/images/offer/top_quality.svg";
+import Customer from "/public/assets/images/offer/customer_service.svg";
+import ReturnPolicy from "/public/assets/images/offer/return.svg";
+import Unique from "/public/assets/images/offer/unique.svg";
+import Community from "/public/assets/images/offer/big_community.svg";
 import Image from 'next/image';
 
 const offers = [
@@ -35,7 +35,7 @@ const offers = [
 
 const Offer = () => {
       return (
-            <div className='container mx-auto py-[100px] px-4 md:px-0'>
+            <section className='container mx-auto py-[100px] px-4 md:px-0'>
                   {/* title */}
                   <div className='w-fit mx-auto text-center section_title'>
                         <h1>What we offer?</h1>
@@ -60,7 +60,7 @@ const Offer = () => {
                               }
                         </ul>
                   </div>
-            </div>
+            </section>
       );
 };
 

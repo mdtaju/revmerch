@@ -1,4 +1,4 @@
-import Logo from "../../../public/assets/images/revmerch_logo.svg";
+import Logo from "/public/assets/images/revmerch_logo.svg";
 import Image from 'next/image';
 import { jost, poppins } from '@/utils/fonts.config';
 import ScrollToTop from './ScrollToTop';

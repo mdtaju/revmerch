@@ -36,4 +36,64 @@ body {
   .footer_link {
     @apply hover:underline cursor-pointer;
   }
+  .register_img_shadow::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255, 0, 0, 0.38);
+    filter: blur(200px);
+  }
+
+  .register_animation {
+    animation: register_bounce 1.5s linear infinite;
+  }
+  @keyframes register_bounce {
+    0% {
+      transform: translateY(0%);
+    }
+    50% {
+      transform: translateY(5%);
+    }
+    100% {
+      transform: translateY(0%);
+    }
+    /* 50% {
+      transform: none;
+    } */
+  }
+  .register_btn {
+    @apply py-2 px-3 bg-[#E32D2D] text-xl md:text-2xl font-extrabold rounded-lg whitespace-nowrap hover:brightness-110 active:scale-95 common_transition;
+  }
+  .text_input {
+    @apply p-3 rounded-[10px] bg-[#FDF5F5] w-full text-black;
+  }
+  .register_divider {
+    @apply w-fit mx-auto text-xs font-light mt-8 relative;
+  }
+  .register_divider::before {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: #e32d2d;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -110%;
+  }
+  .register_divider::after {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: #e32d2d;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -110%;
+  }
+  .input_error_text {
+    @apply text-[#E32D2D] text-xs font-medium ml-2;
+  }
 }

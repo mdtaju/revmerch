@@ -76,7 +76,7 @@ const products = [
 
 const Features = () => {
       return (
-            <div className='container mx-auto'>
+            <section className='container mx-auto'>
                   <div className='py-[100px] mt-[100px] text-center'>
                         {/* title area */}
                         <div className='section_title'>
@@ -99,7 +99,7 @@ const Features = () => {
                               }
                         </div>
                   </div>
-            </div>
+            </section>
       );
 };
 
