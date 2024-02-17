@@ -1,4 +1,5 @@
-import ProductCard from '../reusable/ProductCard';
+import CardContainer from "./CardContainer";
+import Sidebar from "./Sidebar";
 
 const productColors = [
       {
@@ -74,28 +75,17 @@ const products = [
       },
 ]
 
-const Features = () => {
+const ShowRoom = () => {
       return (
-            <section className='container mx-auto'>
-                  <div className='py-[100px] mt-[100px] text-center'>
-                        {/* title area */}
-                        <div className='section_title'>
-                              <h1>Featured Products</h1>
-                        </div>
-                        {/* card container */}
-                        <div className='w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 items-stretch gap-8 justify-items-center mt-[100px] px-4 md:px-12'>
-                              {
-                                    products.map((product, i) => (
-                                          <ProductCard
-                                                key={i}
-                                                product={product}
-                                          />
-                                    ))
-                              }
-                        </div>
+            <section className="container mx-auto py-[100px]">
+                  <div className="flex flex-col lg:flex-row items-start gap-4">
+                        <Sidebar />
+                        <CardContainer
+                              products={products}
+                        />
                   </div>
             </section>
       );
 };
 
-export default Features;
+export default ShowRoom;

@@ -96,4 +96,7 @@ body {
   .input_error_text {
     @apply text-[#E32D2D] text-xs font-medium ml-2;
   }
+  .filter_items {
+    @apply cursor-pointer text-lg flex items-center gap-2 select-none;
+  }
 }

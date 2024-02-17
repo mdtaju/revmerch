@@ -4,7 +4,7 @@ import { karla } from "@/utils/fonts.config";
 
 const RegisterLayout = ({ children }) => {
       return (
-            <div className={`py-[100px] w-full max-w-[1100px] mx-auto px-4 md:px-0 ${karla.className}`}>
+            <section className={`py-[100px] w-full max-w-[1100px] mx-auto px-4 md:px-0 ${karla.className}`}>
                   <div className="flex flex-col md:flex-row gap-4 justify-between">
                         {/* content area start */}
                         <div className="w-full h-fit md:w-[500px] relative text-center md:text-left">
@@ -34,7 +34,7 @@ const RegisterLayout = ({ children }) => {
                         </div>
                         {/* form area end */}
                   </div>
-            </div>
+            </section>
       );
 };
 

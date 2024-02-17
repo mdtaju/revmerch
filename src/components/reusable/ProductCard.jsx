@@ -17,7 +17,8 @@ let selectedMark = <svg width="12" height="12" viewBox="0 0 12 12" fill="none" x
 </svg>
 
 // component start
-const ProductCard = ({ name = "Product Name", price = "1199", feedback = 4.5, reviews = "32", colors = [], type = "" }) => {
+const ProductCard = ({ product }) => {
+      const { name = "Product Name", price = "1199", feedback = 4.5, reviews = "32", colors = [], type = "" } = product;
       const [isAddedToCart, setIsAddedToCart] = useState(false);
       const [selectedColor, setSelectedColor] = useState("");
       const [allColors, setAllColors] = useState(colors.slice(0, 6));
