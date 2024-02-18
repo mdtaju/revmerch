@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Img from "/public/assets/images/hero_hoodie.svg";
 import { roboto } from '@/utils/fonts.config';
 import { feedbackStar } from '@/utils/feedbackStars';
+import Link from 'next/link';
+import ColorSelectBtn from './Color';
 
 let selectedMark = <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0_131_525)">
@@ -18,12 +20,18 @@ let selectedMark = <svg width="12" height="12" viewBox="0 0 12 12" fill="none" x
 
 // component start
 const ProductCard = ({ product }) => {
-      const { name = "Product Name", price = "1199", feedback = 4.5, reviews = "32", colors = [], type = "" } = product;
+      const { id = "01", name = "Product Name", price = "1199", feedback = 4.5, reviews = "32", colors = [], type = "" } = product;
       const [isAddedToCart, setIsAddedToCart] = useState(false);
       const [selectedColor, setSelectedColor] = useState("");
       const [allColors, setAllColors] = useState(colors.slice(0, 6));
       const [showMoreColors, setShowMoreColors] = useState(false);
       const feedbackCal = feedbackStar(feedback);
+
+      const regexEmoji =
+            /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{2600}-\u{26FF}\u{2700}-\u{27BF}!@#$%^&*()_+={}[\]:;<>,.?/~`\\/-]/gu; // for emoji and special characters
+      const filterName = product.name.replace(regexEmoji, "");
+      const removeExtraSpaces = filterName.trim().replace(/\s+/g, " ");
+      const makingNameUrl = removeExtraSpaces.toLowerCase().replaceAll(" ", "-");
 
       function handleAddToCart() {
             setIsAddedToCart((prevState) => !prevState)
@@ -49,11 +57,13 @@ const ProductCard = ({ product }) => {
                   {/* image container */}
                   <div className='w-full h-[238px] relative p-1'>
                         {/* image */}
-                        <Image
-                              src={Img}
-                              alt={name}
-                              className='absolute w-full h-full object-contain object-center cursor-pointer'
-                        />
+                        <Link href={`/showroom/${makingNameUrl}-${id}`}>
+                              <Image
+                                    src={Img}
+                                    alt={name}
+                                    className='absolute w-full h-full object-contain object-center cursor-pointer'
+                              />
+                        </Link>
                         {/* tag & add */}
                         {
                               type.toLowerCase() === "new" &&
@@ -77,14 +87,20 @@ const ProductCard = ({ product }) => {
                         {/* colors */}
                         <div className='flex flex-wrap gap-1 items-center justify-between'>
                               {
-                                    allColors.map((product, i) => (
-                                          <button key={i} onClick={() => handleColorSelect(product.name)} aria-label={`${product.name}_color`} className={`w-[28px] h-[28px] rounded-full grid place-items-center hover:brightness-110 common_transition`} style={{ background: product.color }} >
+                                    allColors.map((color, i) => (
+                                          <ColorSelectBtn
+                                                key={i}
+                                                productColor={color}
+                                                selectedColor={selectedColor}
+                                                onClick={() => handleColorSelect(color.name)}
+                                          />
+                                    ))
+                              }
+                              {/* <button key={i} onClick={() => handleColorSelect(product.name)} aria-label={`${product.name}_color`} className={`w-[28px] h-[28px] rounded-full grid place-items-center hover:brightness-110 common_transition`} style={{ background: product.color }} >
                                                 {
                                                       selectedColor === product.name && selectedMark
                                                 }
-                                          </button>
-                                    ))
-                              }
+                                          </button> */}
                         </div>
                         {
                               showMoreColors ?
@@ -94,7 +110,9 @@ const ProductCard = ({ product }) => {
                         }
                         <div>
                               <p className='text-[#979797] text-[10px]'>brand/category</p>
-                              <h2 className='text-2xl mb-0 hover:underline cursor-pointer line-clamp-2'>{name}</h2>
+                              <Link href={`/showroom/${makingNameUrl}-${id}`}>
+                                    <h2 className='text-2xl mb-0 hover:underline cursor-pointer line-clamp-2'>{name}</h2>
+                              </Link>
                         </div>
                         {/* bottom area */}
                         <div>
