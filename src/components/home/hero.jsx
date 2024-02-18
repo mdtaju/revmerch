@@ -9,9 +9,9 @@ const Hero = () => {
                               {/* info area */}
                               <div className='text-center md:text-left'>
                                     <div className='text-5xl font-semibold space-y-4 mb-12'>
-                                          <h2>Elevate Your Style</h2>
+                                          <h2 className="leading-[3.5rem] sm:leading-[1]">Elevate Your Style</h2>
                                           <h2>with our</h2>
-                                          <h2><span className='text-primary'>High</span> Quality <span className='text-primary'>Products</span></h2>
+                                          <h2 className="leading-[4rem] sm:leading-[1]"><span className='text-primary'>High</span> Quality <span className='text-primary'>Products</span></h2>
                                     </div>
                                     <button className='order_btn'>Order Now</button>
                               </div>

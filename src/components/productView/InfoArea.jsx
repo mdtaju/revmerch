@@ -3,6 +3,7 @@ import { useState } from 'react';
 import ColorSelectBtn from '../reusable/Color';
 
 const sizes = ["S", "L", "X", "XL", "XXL"];
+
 const productColors = [
       {
             name: "black",
@@ -29,11 +30,17 @@ const productColors = [
             color: "#73B144"
       },
 ]
+
 const InfoArea = ({ children }) => {
       const [selectedColor, setSelectedColor] = useState("");
+      const [selectedSize, setSelectedSize] = useState("");
 
       function handleColorSelect(color) {
             setSelectedColor(color);
+      }
+
+      function handleSizeSelect(size) {
+            setSelectedSize(size)
       }
       return (
             <div className={`w-full py-[50px] space-y-8 font-bold`}>
@@ -42,7 +49,7 @@ const InfoArea = ({ children }) => {
                   <ul className='flex flex-wrap items-center gap-4'>
                         {
                               sizes.map((size, i) => (
-                                    <li key={i} className='w-[54px] h-[38px] bg-primary rounded grid place-items-center text-2xl cursor-pointer hover:brightness-110 common_transition'>{size}</li>
+                                    <li onClick={() => handleSizeSelect(size)} key={i} className={`w-[54px] h-[38px] rounded grid place-items-center text-2xl cursor-pointer hover:brightness-110 common_transition select-none ${size === selectedSize ? "bg-white text-primary" : "bg-primary text-white"}`}>{size}</li>
                               ))
                         }
                   </ul>
