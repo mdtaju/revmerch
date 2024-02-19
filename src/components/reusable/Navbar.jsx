@@ -1,20 +1,15 @@
 "use client";
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import useAuthState from '../provider/AuthProvider';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase.config';
 
 const navlinks = [
       {
             name: "Showroom",
             path: "/showroom"
-      },
-      {
-            name: "Signin",
-            path: "/signin"
-      },
-      {
-            name: "Register",
-            path: "/register"
       },
       {
             name: "About us",
@@ -25,9 +20,38 @@ const navlinks = [
 const Navbar = () => {
       const pathname = usePathname();
       const [navActive, setNavActive] = useState(false);
+      const authState = useAuthState();
+      const router = useRouter();
 
       function navHandler() {
             setNavActive((prevState) => !prevState);
+      }
+
+      function handleSignOut() {
+            signOut(auth).then(() => {
+                  navHandler();
+                  router.push("/")
+            })
+      }
+
+      let authContent;
+      if (authState) {
+            authContent = <li onClick={handleSignOut} className={`cursor-pointer hover:text-primary hover:underline common_transition`}>
+                  Signout
+            </li>
+      } else {
+            authContent = <>
+                  <li onClick={navHandler} className={`cursor-pointer hover:text-primary hover:underline common_transition ${pathname === "/signin" ? "active_nav" : ""}`}>
+                        <Link href={"/signin"}>
+                              Signin
+                        </Link>
+                  </li>
+                  <li onClick={navHandler} className={`cursor-pointer hover:text-primary hover:underline common_transition ${pathname === "/register" ? "active_nav" : ""}`}>
+                        <Link href={"/register"}>
+                              Register
+                        </Link>
+                  </li>
+            </>
       }
       return (
             <div className='container mx-auto pt-0 md:pt-12'>
@@ -49,6 +73,9 @@ const Navbar = () => {
                                                       </Link>
                                                 </li>
                                           ))
+                                    }
+                                    {
+                                          authContent
                                     }
                               </ul>
                         </nav>
@@ -92,6 +119,7 @@ const Navbar = () => {
                                                             </li>
                                                       ))
                                                 }
+                                                {authContent}
                                           </ul>
                                     </nav>
                               </div>

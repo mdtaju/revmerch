@@ -1,3 +1,4 @@
+import Link from "next/link";
 import HeroImage from "/public/assets/images/hero_hoodie.svg";
 import Image from 'next/image';
 
@@ -13,7 +14,9 @@ const Hero = () => {
                                           <h2>with our</h2>
                                           <h2 className="leading-[4rem] sm:leading-[1]"><span className='text-primary'>High</span> Quality <span className='text-primary'>Products</span></h2>
                                     </div>
-                                    <button className='order_btn'>Order Now</button>
+                                    <Link href={"/showroom"}>
+                                          <button className='order_btn'>Order Now</button>
+                                    </Link>
                               </div>
                               {/* image */}
                               <div className='w-full md:w-[412px] h-auto mx-auto md:ml-auto md:mr-0'>
