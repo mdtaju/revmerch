@@ -4,7 +4,9 @@ const ProductPage = ({ params }) => {
       const getProductId = params?.productId.split("-").pop();
       return (
             <main>
-                  <ProductView />
+                  <ProductView
+                        id={getProductId}
+                  />
             </main>
       );
 };

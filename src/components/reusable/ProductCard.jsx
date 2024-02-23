@@ -1,5 +1,5 @@
 "use client";
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { useState } from 'react';
 import Img from "/public/assets/images/hero_hoodie.svg";
 import { roboto } from '@/utils/fonts.config';
@@ -20,7 +20,7 @@ let selectedMark = <svg width="12" height="12" viewBox="0 0 12 12" fill="none" x
 
 // component start
 const ProductCard = ({ product }) => {
-      const { id = "01", name = "Product Name", price = "1199", feedback = 4.5, reviews = "32", colors = [], type = "" } = product;
+      const { id = "01", name = "Product Name", price = "1199", feedback = 4.5, reviews = "32", colors = [], type = "", images = [] } = product;
       const [isAddedToCart, setIsAddedToCart] = useState(false);
       const [selectedColor, setSelectedColor] = useState("");
       const [allColors, setAllColors] = useState(colors.slice(0, 6));
@@ -59,8 +59,9 @@ const ProductCard = ({ product }) => {
                         {/* image */}
                         <Link href={`/showroom/${makingNameUrl}-${id}`}>
                               <Image
-                                    src={Img}
+                                    src={images[0]}
                                     alt={name}
+                                    layout='fill'
                                     className='absolute w-full h-full object-contain object-center cursor-pointer'
                               />
                         </Link>

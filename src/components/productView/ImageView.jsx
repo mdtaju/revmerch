@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useState } from "react";
 
 const ImageView = ({ productImages }) => {
@@ -20,6 +20,7 @@ const ImageView = ({ productImages }) => {
                         <Image
                               src={currentImg}
                               alt="hoodie"
+                              layout="fill"
                               className="w-full h-full absolute object-contain object-top"
                         />
                   </div>
@@ -35,6 +36,7 @@ const ImageView = ({ productImages }) => {
                                           <Image
                                                 src={product}
                                                 alt="hoodie"
+                                                layout="fill"
                                                 className="absolute w-full h-full object-contain object-center"
                                           />
                                     </div>

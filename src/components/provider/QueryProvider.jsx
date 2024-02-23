@@ -13,3 +13,13 @@ const QueryProvider = ({ children }) => {
 };
 
 export default QueryProvider;
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBiioUGeHTWbDkLYEuwWXKPVKY-uAPdPWw",
+//   authDomain: "revmerch-42a47.firebaseapp.com",
+//   projectId: "revmerch-42a47",
+//   storageBucket: "revmerch-42a47.appspot.com",
+//   messagingSenderId: "261204564465",
+//   appId: "1:261204564465:web:0f7e7c53aad55f4b100c50",
+//   measurementId: "G-X6SZLJKYPT"
+// };

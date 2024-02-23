@@ -1,8 +1,9 @@
 "use client";
 import { useState } from 'react';
 import ColorSelectBtn from '../reusable/Color';
+import useAuthState from '../provider/AuthProvider';
+import setOrder from '@/lib/setOrder';
 
-const sizes = ["S", "L", "X", "XL", "XXL"];
 
 const productColors = [
       {
@@ -31,9 +32,12 @@ const productColors = [
       },
 ]
 
-const InfoArea = ({ children }) => {
+const InfoArea = ({ productId, productName, colors, price, sizes, children }) => {
       const [selectedColor, setSelectedColor] = useState("");
       const [selectedSize, setSelectedSize] = useState("");
+      const [loading, setLoading] = useState(false);
+      const auth = useAuthState();
+      // console.log(auth)
 
       function handleColorSelect(color) {
             setSelectedColor(color);
@@ -41,6 +45,33 @@ const InfoArea = ({ children }) => {
 
       function handleSizeSelect(size) {
             setSelectedSize(size)
+      }
+
+      async function placeOrder() {
+            if (!auth) {
+                  return alert("To place an order. Please, log in to your account first.")
+            }
+            if (!selectedColor || !selectedSize) {
+                  return alert("Please select the size and color.")
+            }
+            setLoading(true);
+            const res = await setOrder({
+                  productId,
+                  productName,
+                  color: selectedColor,
+                  size: selectedSize,
+                  price: price,
+                  customer_id: auth.uid,
+                  customer_name: auth.displayName,
+                  customer_email: auth.email
+            });
+            if (res) {
+                  setLoading(false);
+                  return alert("Thank you. Your order has been successfully placed.")
+            } else {
+                  setLoading(false);
+                  return alert("Something went wrong. Please, try again.")
+            }
       }
       return (
             <div className={`w-full py-[50px] space-y-8 font-bold`}>
@@ -56,7 +87,7 @@ const InfoArea = ({ children }) => {
                   {/* colors */}
                   <ul className='flex flex-wrap items-center gap-4'>
                         {
-                              productColors.map((color, i) => (
+                              colors.map((color, i) => (
                                     <ColorSelectBtn
                                           key={i}
                                           productColor={color}
@@ -67,7 +98,9 @@ const InfoArea = ({ children }) => {
                               ))
                         }
                   </ul>
-                  <button className='order_btn'>Order Now</button>
+                  <button onClick={placeOrder} disabled={loading} className='order_btn'>
+                        {loading ? "loading..." : "Order Now"}
+                  </button>
             </div>
       );
 };
