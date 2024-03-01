@@ -33,12 +33,24 @@ export const fetchCartItems = createAsyncThunk(
 export const removeCartItem = createAsyncThunk(
   "cart/removeCartItem",
   async (id) => {
+    console.log(id);
     try {
       await deleteDoc(doc(db, "cart", id));
       return id;
     } catch (error) {
       return false;
     }
+  }
+);
+
+// clear the cart
+export const clearTheCart = createAsyncThunk(
+  "cart/clearTheCart",
+  async (IDs) => {
+    return IDs.forEach(async (id) => {
+      await deleteDoc(doc(db, "cart", id));
+      return id;
+    });
   }
 );
 
@@ -69,6 +81,7 @@ const cartSlice = createSlice({
           return {
             ...item,
             quantity: item.quantity + 1,
+            total_price: (item.quantity + 1) * item.product_price,
           };
         } else {
           return item;
@@ -94,6 +107,7 @@ const cartSlice = createSlice({
             return {
               ...item,
               quantity: item.quantity - 1,
+              total_price: (item.quantity - 1) * item.product_price,
             };
           }
         } else {
@@ -110,6 +124,20 @@ const cartSlice = createSlice({
       state.promotionApplied = false;
       state.cartArray = arr;
       state.cartTotal = grandTotal;
+    },
+    addColor(state, action) {
+      const { id, color } = action.payload;
+      const index = state.cartArray.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        state.cartArray[index] = { ...state.cartArray[index], color };
+      }
+    },
+    addSize(state, action) {
+      const { id, size } = action.payload;
+      const index = state.cartArray.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        state.cartArray[index] = { ...state.cartArray[index], size };
+      }
     },
     promotionDiscount(state, action) {
       // bill - (bill * discount / 100)
@@ -162,11 +190,21 @@ const cartSlice = createSlice({
         state.promotionApplied = false;
         state.cartTotal = grandTotal;
         state.cartArray = dueItems;
+      })
+      .addCase(clearTheCart.fulfilled, (state, action) => {
+        state.cartArray = [];
+        state.cartTotal = 0;
+        state.promotionApplied = false;
       });
   },
 });
 
-export const { quantityIncrement, quantityDecrement, promotionDiscount } =
-  cartSlice.actions;
+export const {
+  quantityIncrement,
+  quantityDecrement,
+  promotionDiscount,
+  addColor,
+  addSize,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -40,16 +40,6 @@ const InfoArea = ({ productId, productName, colors, price, sizes, children, Img 
                   return alert("To add product to cart. Please, log in to your account first.")
             }
             setLoading(true);
-            // const res = await setOrder({
-            //       productId,
-            //       productName,
-            //       color: selectedColor,
-            //       size: selectedSize,
-            //       price: price,
-            //       customer_id: auth.uid,
-            //       customer_name: auth.displayName,
-            //       customer_email: auth.email
-            // });
             if (!isAddedToCart) {
                   dispatch(addToCart({
                         product_id: productId,

@@ -2,7 +2,7 @@ import Image from 'next/legacy/image';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ColorSelectBtn from '../reusable/Color';
-import { quantityDecrement, quantityIncrement, removeCartItem } from '@/lib/features/cart/cartSlice';
+import { addColor, addSize, quantityDecrement, quantityIncrement, removeCartItem } from '@/lib/features/cart/cartSlice';
 
 const CartProduct = ({ product }) => {
       const [allColors, setAllColors] = useState([]);
@@ -14,10 +14,12 @@ const CartProduct = ({ product }) => {
       const dispatch = useDispatch();
 
       function handleColorSelect(color) {
+            dispatch(addColor({ id: product.id, color: color }));
             setSelectedColor(color);
       }
 
       function handleSizeSelect(size) {
+            dispatch(addSize({ id: product.id, size: size }));
             setSelectedSize(size)
       }
 
@@ -81,7 +83,7 @@ const CartProduct = ({ product }) => {
                                                 selectedColor={selectedColor}
                                                 productColor={color}
                                                 border={true}
-                                                onClick={() => handleColorSelect(color.name)}
+                                                onClick={() => handleColorSelect(color.color)}
                                           />
                                     ))
                               }

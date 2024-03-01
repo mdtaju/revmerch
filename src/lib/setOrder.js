@@ -3,8 +3,11 @@ import { db } from "./firebase.config";
 
 const setOrder = async (data) => {
   try {
-    await addDoc(collection(db, "orders"), data);
-    return true;
+    const docRes = await addDoc(collection(db, "orders"), data);
+    return {
+      id: docRes.id,
+      ...data,
+    };
   } catch (error) {
     return false;
   }

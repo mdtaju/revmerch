@@ -4,17 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import CartProduct from "./CartProduct";
 import { fetchPromotion } from "@/lib/features/promotion/promotionSlice";
 import { fetchProducts } from "@/lib/features/products/productsSlice";
-import { promotionDiscount } from "@/lib/features/cart/cartSlice";
+import { clearTheCart, promotionDiscount } from "@/lib/features/cart/cartSlice";
+import setOrder from "@/lib/setOrder";
+import useAuthState from "../provider/AuthProvider";
+import PurchaseDialog from "../reusable/PurchaseDialog";
 
 const CartProducts = () => {
       const cartItems = useSelector(state => state.cart);
-      const [grandTotal, setGrandTotal] = useState("");
-      const [promotionPercent, setPromotionPercent] = useState("");
-      const [inputPromotion, setInputPromotion] = useState("");
       const promotion = useSelector(state => state.promotion.promotionInfo)
+      const [inputPromotion, setInputPromotion] = useState("");
+      const [isLoading, setIsLoading] = useState(false);
+      const [orderSuccess, setOrderSuccess] = useState(false);
       const dispatch = useDispatch();
-
-      // console.log(promotion)
+      const auth = useAuthState()
 
       useEffect(() => {
             dispatch(fetchProducts())
@@ -23,6 +25,32 @@ const CartProducts = () => {
       function handlePromotionApply() {
             dispatch(fetchPromotion(inputPromotion)).then((data) => {
                   dispatch(promotionDiscount(data.payload.percent))
+            })
+      }
+
+      async function handlePlaceOrder() {
+            setIsLoading(true);
+            await setOrder({
+                  products: cartItems.cartArray,
+                  user_id: auth.uid,
+                  user_name: auth.displayName,
+                  user_email: auth.email,
+                  grand_total: cartItems.cartTotal,
+                  applied_promotion: promotion.code ? promotion.code : "Not-Applied"
+            }).then(async () => {
+                  console.log(cartItems.cartArray)
+                  const IDs = cartItems.cartArray.map(item => {
+                        return item.id
+                  })
+                  dispatch(clearTheCart(IDs)).then(() => {
+                        setTimeout(() => setOrderSuccess(false), 4000);
+                        setOrderSuccess(true);
+                        setIsLoading(false);
+                  }).catch(() => {
+                        setIsLoading(false);
+                  })
+            }).catch(() => {
+                  setIsLoading(false);
             })
       }
 
@@ -55,9 +83,16 @@ const CartProducts = () => {
                                     <div className="py-3 pl-2 border-l border-white">{`${cartItems.cartTotal} DT`}</div>
                               </div>
                               {/* order btn */}
-                              <button className="order_btn text-sm bg-white text-primary">Order Now</button>
+                              <button disabled={isLoading} onClick={handlePlaceOrder} className="order_btn text-sm bg-white text-primary">{isLoading ? "loading..." : "Order Now"}</button>
                         </div>
                   </div>
+                  {/* dialog */}
+                  {
+                        orderSuccess &&
+                        <PurchaseDialog
+                              name={auth.displayName}
+                        />
+                  }
             </div>
       );
 };
