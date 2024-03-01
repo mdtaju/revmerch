@@ -66,10 +66,10 @@ const CartProduct = ({ product }) => {
       }, [product.product_id, products]);
       return (
             <div
-                  className="flex flex-wrap gap-4 items-center p-4 border-b border-primary"
+                  className="flex flex-wrap gap-4 items-center border-b border-primary"
             >
                   {/* img */}
-                  <div className="w-[150px] h-[150px] relative">
+                  <div className="w-[150px] h-[150px] relative p-4">
                         <Image
                               src={product.product_image}
                               alt={product.product_name}
@@ -78,7 +78,7 @@ const CartProduct = ({ product }) => {
                         />
                   </div>
                   {/* info */}
-                  <div className="w-[265px] h-[150px] pr-0 md:pr-4 border-[0px] md:border-r border-primary">
+                  <div className="w-[265px] p-4 border-[0px] md:border-x border-primary">
                         <h2 className="line-clamp-2 text-xl font-semibold">{product.product_name}</h2>
                         {/* color select */}
                         <div className='flex items-center gap-4 flex-wrap mt-4'>
@@ -104,7 +104,7 @@ const CartProduct = ({ product }) => {
                         </ul>
                   </div>
                   {/* price calculation */}
-                  <div className='flex flex-col gap-4'>
+                  <div className='flex flex-col gap-4 p-4'>
                         <p className='text-xl'>{`Price: ${product.product_price}DT`}</p>
                         <div className='flex bg-white items-center border border-gray-400 rounded-sm w-fit mx-auto'>
                               <button

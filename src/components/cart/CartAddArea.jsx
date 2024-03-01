@@ -4,7 +4,7 @@ import CryptoCurrency from "/public/assets/images/cryptocurrency.png";
 
 const CartAddArea = () => {
       return (
-            <div className="flex flex-col gap-12 w-full md:w-[370px] px-4 border-[0px] md:border-l border-primary">
+            <div className="flex flex-col gap-12 w-full md:w-[370px] px-4">
                   {/* top img */}
                   <div className="w-full h-auto grid place-items-center">
                         <Image
