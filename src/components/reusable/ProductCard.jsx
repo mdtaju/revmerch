@@ -1,11 +1,13 @@
 "use client";
 import Image from 'next/legacy/image';
-import { useState } from 'react';
-import Img from "/public/assets/images/hero_hoodie.svg";
+import { useState, useEffect } from 'react';
 import { roboto } from '@/utils/fonts.config';
 import { feedbackStar } from '@/utils/feedbackStars';
 import Link from 'next/link';
 import ColorSelectBtn from './Color';
+import useAuthState from '../provider/AuthProvider';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart, removeCartItem } from '@/lib/features/cart/cartSlice';
 
 let selectedMark = <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0_131_525)">
@@ -25,7 +27,22 @@ const ProductCard = ({ product }) => {
       const [selectedColor, setSelectedColor] = useState("");
       const [allColors, setAllColors] = useState(colors.slice(0, 6));
       const [showMoreColors, setShowMoreColors] = useState(false);
+      const cartItems = useSelector(state => state.cart.cartArray);
+      const [loading, setLoading] = useState(false);
+      const dispatch = useDispatch();
+      const authUser = useAuthState();
       const feedbackCal = feedbackStar(feedback);
+
+      useEffect(() => {
+            if (cartItems) {
+                  const getItem = cartItems.find((item) => item.product_id === id);
+                  if (getItem) {
+                        setIsAddedToCart(getItem.id);
+                  } else {
+                        setIsAddedToCart(false);
+                  }
+            }
+      }, [cartItems, id]);
 
       const regexEmoji =
             /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{2600}-\u{26FF}\u{2700}-\u{27BF}!@#$%^&*()_+={}[\]:;<>,.?/~`\\/-]/gu; // for emoji and special characters
@@ -34,7 +51,35 @@ const ProductCard = ({ product }) => {
       const makingNameUrl = removeExtraSpaces.toLowerCase().replaceAll(" ", "-");
 
       function handleAddToCart() {
-            setIsAddedToCart((prevState) => !prevState)
+            if (!authUser) {
+                  return alert("To add product to cart. Please, log in to your account first.")
+            }
+            setLoading(true)
+            if (isAddedToCart) {
+                  dispatch(removeCartItem(isAddedToCart)).then(() => {
+                        setIsAddedToCart(false);
+                        setLoading(false);
+                  }).catch(() => {
+                        setLoading(true);
+                  })
+            } else {
+                  dispatch(addToCart({
+                        product_id: id,
+                        color: selectedColor,
+                        user_id: authUser.uid,
+                        quantity: 1,
+                        product_price: price,
+                        total_price: price,
+                        product_name: name,
+                        product_image: images[0],
+                        size: "",
+                  })).then((data) => {
+                        setIsAddedToCart(data.payload.id);
+                        setLoading(false);
+                  }).catch(() => {
+                        setLoading(false);
+                  })
+            }
       }
 
       function handleColorSelect(color) {
@@ -71,7 +116,7 @@ const ProductCard = ({ product }) => {
                               <span className='py-1 px-2 uppercase bg-primary absolute w-fit top-2 left-2 z-[3] text-sm rounded-sm'>New</span>
                         }
                         {/* add to cart */}
-                        <button onClick={handleAddToCart} className='p-3 bg-[#F3F3F3] rounded-full absolute top-2 right-2 z-[3]' aria-label='cart-btn'>
+                        <button disabled={loading} onClick={handleAddToCart} className={`p-3 bg-[#F3F3F3] rounded-full absolute top-2 right-2 z-[3] ${loading ? "animate-pulse" : ""}`} aria-label='cart-btn'>
                               {
                                     isAddedToCart ?
                                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="13" viewBox="0 0 20 20" fill="#DA0037" >
@@ -93,7 +138,7 @@ const ProductCard = ({ product }) => {
                                                 key={i}
                                                 productColor={color}
                                                 selectedColor={selectedColor}
-                                                onClick={() => handleColorSelect(color.name)}
+                                                onClick={() => handleColorSelect(color.color)}
                                           />
                                     ))
                               }

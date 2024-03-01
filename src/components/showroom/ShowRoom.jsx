@@ -1,18 +1,24 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect } from 'react';
 import CardContainer from "./CardContainer";
 import Sidebar from "./Sidebar";
-import getProducts from "@/lib/getProducts";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "@/lib/features/products/productsSlice";
 
 const ShowRoom = () => {
-      const { data = [] } = useQuery({ queryKey: ["products"], queryFn: async () => await getProducts() });
+      const products = useSelector(state => state.products.productsArray);
+      const dispatch = useDispatch();
+
+      useEffect(() => {
+            dispatch(fetchProducts());
+      }, [dispatch]);
 
       return (
             <section className="container mx-auto py-[100px]">
                   <div className="flex flex-col lg:flex-row items-start gap-4">
                         <Sidebar />
                         <CardContainer
-                              products={data}
+                              products={products}
                         />
                   </div>
             </section>

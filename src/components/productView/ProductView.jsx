@@ -2,22 +2,14 @@
 import { useEffect, useState } from "react";
 import ImageView from "./ImageView";
 import InfoArea from "./InfoArea";
-import WhiteHoodie from "/public/assets/images/hero_hoodie.svg";
-import WhiteHoodie1 from "/public/assets/images/hero_hoodie_1.png";
-import WhiteHoodie2 from "/public/assets/images/hero_hoodie_2.png";
-import { useQuery } from "@tanstack/react-query";
-import getProducts from "@/lib/getProducts";
 import Loading from "../reusable/Loading";
-
-const productImages = [
-      WhiteHoodie,
-      WhiteHoodie1,
-      WhiteHoodie2
-]
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "@/lib/features/products/productsSlice";
 
 const ProductView = ({ id }) => {
-      const { data = [] } = useQuery({ queryKey: ["products"], queryFn: async () => await getProducts() });
-      // console.log(data)
+      const products = useSelector(state => state.products.productsArray);
+      const dispatch = useDispatch();
+
       const [product, setProduct] = useState({
             name: "",
             colors: [],
@@ -28,13 +20,17 @@ const ProductView = ({ id }) => {
       const { name, colors, price, sizes, images } = product;
 
       useEffect(() => {
-            if (data) {
-                  const getProduct = data.find((data) => data.id === id);
+            dispatch(fetchProducts());
+      }, [dispatch]);
+
+      useEffect(() => {
+            if (products) {
+                  const getProduct = products.find((data) => data.id === id);
                   if (getProduct) {
                         setProduct(getProduct);
                   }
             }
-      }, [data, id]);
+      }, [products, id]);
 
       if (product.name) {
 
@@ -47,7 +43,7 @@ const ProductView = ({ id }) => {
                               />
 
                               {/* product details area */}
-                              <InfoArea productId={id} productName={name} price={price} colors={colors} sizes={sizes}>
+                              <InfoArea productId={id} productName={name} price={price} colors={colors} sizes={sizes} Img={images[0]}>
                                     <h2 className='text-4xl'>{name}</h2>
                                     <h5 className='text-4xl'>{price} <span className='text-primary'>TD</span></h5>
                               </InfoArea>

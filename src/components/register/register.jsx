@@ -3,11 +3,13 @@ import RegisterLayout from "../reusable/RegisterLayout";
 import { useForm } from "react-hook-form";
 import GoogleLogin from "../reusable/GoogleLogin";
 import { emailValidationPattern } from "@/utils/validationCheck";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, deleteUser, signInWithPopup, updatePhoneNumber, updateProfile } from "firebase/auth";
 import { auth } from "@/lib/firebase.config";
 import useAuthState from "../provider/AuthProvider";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import checkUser from "@/lib/checkUser";
+import setUser from "@/lib/setUser";
 
 const Register = () => {
       const { register, handleSubmit, formState: { errors } } = useForm();
@@ -19,26 +21,37 @@ const Register = () => {
       useEffect(() => {
             if (authState) {
                   router.push("/")
-                  console.log('register called')
             }
       }, [authState, router]);
 
-      function registerSubmit(inputs) {
+      async function registerSubmit(inputs) {
             setLoading(true);
-            createUserWithEmailAndPassword(auth, inputs.email, inputs.password).then(() => {
-                  updateProfile(auth.currentUser, {
-                        displayName: inputs.name
-                  }).then(() => {
-                        router.push("/showroom");
-                        setLoading(false);
+            const isUserExists = await checkUser(`+216${inputs.phone}`);
+            if (!isUserExists) {
+                  createUserWithEmailAndPassword(auth, inputs.email, inputs.password).then((data) => {
+                        updateProfile(auth.currentUser, {
+                              displayName: inputs.name,
+                        }).then(async () => {
+                              await setUser({
+                                    phone: `+216${inputs.phone}`,
+                                    auth_id: data.user.uid,
+                                    email: inputs.email,
+                                    name: inputs.name
+                              })
+                              router.push("/showroom");
+                              setLoading(false);
+                        }).catch(() => {
+                              setError("Name or phone not added. Please, try again");
+                              setLoading(false);
+                        })
                   }).catch(() => {
                         setError("Something went wrong. Please, try again");
                         setLoading(false);
                   })
-            }).catch(() => {
-                  setError("Something went wrong. Please, try again");
+            } else {
+                  setError("Phone number already exists. Please, try another one");
                   setLoading(false);
-            })
+            }
       }
 
       function handleGoogleSignIn() {
@@ -58,6 +71,26 @@ const Register = () => {
                               {/* name */}
                               <input {...register("name", { required: true })} type="text" className="text_input" placeholder="Enter your name" />
                               {errors.name && <span className="input_error_text">This field is required</span>}
+
+                              {/* phone */}
+                              <div className="flex items-center w-full mt-6">
+                                    <div className="w-fit bg-white h-full text-gray-400 p-3 rounded-l-[10px]">+216</div>
+                                    <div className="flex-1">
+                                          <input {...register("phone", { pattern: /^[0-9]/, required: true, maxLength: 8, minLength: 8 })} type="text" className="text_input rounded-l-none" placeholder="Enter your phone" />
+                                    </div>
+                              </div>
+                              {errors.phone &&
+                                    <span className="input_error_text">
+                                          {
+                                                errors.phone.type === "required" &&
+                                                "This field is required"
+                                          }
+                                          {(errors.phone.type === "minLength" || errors.phone.type === "maxLength") && "Phone number must be 8 length"}
+                                          {
+                                                errors.phone.type === "pattern" && "Enter a valid number"
+                                          }
+                                    </span>
+                              }
 
                               {/* email */}
                               <input {...register("email", { required: true, pattern: emailValidationPattern })} type="email" className="text_input mt-6" placeholder="Enter your email address" />

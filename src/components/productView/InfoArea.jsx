@@ -1,43 +1,31 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ColorSelectBtn from '../reusable/Color';
 import useAuthState from '../provider/AuthProvider';
 import setOrder from '@/lib/setOrder';
+import { addToCart } from '@/lib/features/cart/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
-
-const productColors = [
-      {
-            name: "black",
-            color: "#1C1C1C"
-      },
-      {
-            name: "purple",
-            color: "#803B90"
-      },
-      {
-            name: "red",
-            color: "#E0342C"
-      },
-      {
-            name: "orange",
-            color: "#EE632F"
-      },
-      {
-            name: "cyan",
-            color: "#2084BD"
-      },
-      {
-            name: "green",
-            color: "#73B144"
-      },
-]
-
-const InfoArea = ({ productId, productName, colors, price, sizes, children }) => {
+const InfoArea = ({ productId, productName, colors, price, sizes, children, Img }) => {
       const [selectedColor, setSelectedColor] = useState("");
       const [selectedSize, setSelectedSize] = useState("");
       const [loading, setLoading] = useState(false);
+      const [isAddedToCart, setIsAddedToCart] = useState(false);
       const auth = useAuthState();
+      const cartItems = useSelector(state => state.cart.cartArray);
+      const dispatch = useDispatch();
       // console.log(auth)
+
+      useEffect(() => {
+            if (cartItems) {
+                  const getItem = cartItems.find((item) => item.product_id === productId);
+                  if (getItem) {
+                        setIsAddedToCart(getItem.id);
+                  } else {
+                        setIsAddedToCart(false);
+                  }
+            }
+      }, [cartItems, productId]);
 
       function handleColorSelect(color) {
             setSelectedColor(color);
@@ -49,28 +37,36 @@ const InfoArea = ({ productId, productName, colors, price, sizes, children }) =>
 
       async function placeOrder() {
             if (!auth) {
-                  return alert("To place an order. Please, log in to your account first.")
-            }
-            if (!selectedColor || !selectedSize) {
-                  return alert("Please select the size and color.")
+                  return alert("To add product to cart. Please, log in to your account first.")
             }
             setLoading(true);
-            const res = await setOrder({
-                  productId,
-                  productName,
-                  color: selectedColor,
-                  size: selectedSize,
-                  price: price,
-                  customer_id: auth.uid,
-                  customer_name: auth.displayName,
-                  customer_email: auth.email
-            });
-            if (res) {
-                  setLoading(false);
-                  return alert("Thank you. Your order has been successfully placed.")
-            } else {
-                  setLoading(false);
-                  return alert("Something went wrong. Please, try again.")
+            // const res = await setOrder({
+            //       productId,
+            //       productName,
+            //       color: selectedColor,
+            //       size: selectedSize,
+            //       price: price,
+            //       customer_id: auth.uid,
+            //       customer_name: auth.displayName,
+            //       customer_email: auth.email
+            // });
+            if (!isAddedToCart) {
+                  dispatch(addToCart({
+                        product_id: productId,
+                        color: selectedColor,
+                        user_id: auth.uid,
+                        quantity: 1,
+                        product_price: price,
+                        total_price: price,
+                        product_name: productName,
+                        product_image: Img,
+                        size: selectedSize,
+                  })).then((data) => {
+                        setIsAddedToCart(data.payload.id);
+                        setLoading(false);
+                  }).catch(() => {
+                        setLoading(false);
+                  })
             }
       }
       return (
@@ -92,14 +88,14 @@ const InfoArea = ({ productId, productName, colors, price, sizes, children }) =>
                                           key={i}
                                           productColor={color}
                                           selectedColor={selectedColor}
-                                          onClick={() => handleColorSelect(color.name)}
+                                          onClick={() => handleColorSelect(color.color)}
                                           border={true}
                                     />
                               ))
                         }
                   </ul>
                   <button onClick={placeOrder} disabled={loading} className='order_btn'>
-                        {loading ? "loading..." : "Order Now"}
+                        {loading ? "loading..." : "Add to cart"}
                   </button>
             </div>
       );
