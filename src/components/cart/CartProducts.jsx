@@ -29,6 +29,9 @@ const CartProducts = () => {
       }
 
       async function handlePlaceOrder() {
+            if (!cartItems.cartArray.length) {
+                  return alert("You do not have any cart items.")
+            }
             setIsLoading(true);
             await setOrder({
                   products: cartItems.cartArray,

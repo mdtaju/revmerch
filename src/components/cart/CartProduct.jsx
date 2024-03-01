@@ -11,6 +11,7 @@ const CartProduct = ({ product }) => {
       const [selectedColor, setSelectedColor] = useState(product.color);
       const [selectedSize, setSelectedSize] = useState(product.size);
       const [quantity, setQuantity] = useState(1);
+      const [removeLoading, setRemoveLoading] = useState(false);
       const dispatch = useDispatch();
 
       function handleColorSelect(color) {
@@ -46,7 +47,12 @@ const CartProduct = ({ product }) => {
       }
 
       function handleRemoveCartItem() {
-            dispatch(removeCartItem(product.id))
+            setRemoveLoading(true);
+            dispatch(removeCartItem(product.id)).then(() => {
+                  setRemoveLoading(false);
+            }).catch(() => {
+                  setRemoveLoading(false);
+            })
       }
 
       useEffect(() => {
@@ -118,7 +124,7 @@ const CartProduct = ({ product }) => {
                               </button>
                         </div>
                         {/* remove cart item */}
-                        <button onClick={handleRemoveCartItem} className='order_btn text-sm'>Remove</button>
+                        <button disabled={removeLoading} onClick={handleRemoveCartItem} className='order_btn text-sm'>{removeLoading ? "loading..." : "Remove"}</button>
                   </div>
             </div>
       );
