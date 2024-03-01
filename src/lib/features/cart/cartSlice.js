@@ -33,7 +33,6 @@ export const fetchCartItems = createAsyncThunk(
 export const removeCartItem = createAsyncThunk(
   "cart/removeCartItem",
   async (id) => {
-    console.log(id);
     try {
       await deleteDoc(doc(db, "cart", id));
       return id;

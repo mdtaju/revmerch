@@ -6,7 +6,7 @@ const CartHero = () => {
             <div className='container mx-auto py-[100px]'>
                   <div className='px-4 sm:px-0 flex flex-col items-start gap-4'>
                         {/* top-bar */}
-                        <div className='px-4 h-auto sm:h-[50px] text-4xl font-semibold text-primary bg-white rounded-sm sm:rounded-full grid place-items-center'>
+                        <div className='px-4 h-auto sm:h-[50px] text-4xl font-semibold text-primary rounded-sm sm:rounded-full grid place-items-center'>
                               <span>Your Shopping Cart:</span>
                         </div>
                         {/* products and add container */}

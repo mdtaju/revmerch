@@ -17,7 +17,7 @@ const SignIn = () => {
       function signInSubmit(data) {
             setLoading(true);
             signInWithEmailAndPassword(auth, data.email, data.password).then(() => {
-                  router.push("/showroom");
+                  router.push("/products");
                   setLoading(false);
             }).catch(() => {
                   setErr("Wrong email or password. Please, try again");
@@ -28,7 +28,7 @@ const SignIn = () => {
       function handleGoogleSignIn() {
             const provider = new GoogleAuthProvider();
             signInWithPopup(auth, provider).then(() => {
-                  router.push("/showroom")
+                  router.push("/products")
                   setErr("")
             }).catch(() => {
                   setErr("Something wrong with google login. Please try again")

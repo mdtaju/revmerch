@@ -10,11 +10,11 @@ import { fetchCartItems } from '@/lib/features/cart/cartSlice';
 
 const navlinks = [
       {
-            name: "Showroom",
-            path: "/showroom"
+            name: "Products",
+            path: "/products"
       },
       {
-            name: "About us",
+            name: "About",
             path: "/about"
       },
 ]

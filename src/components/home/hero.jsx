@@ -14,7 +14,7 @@ const Hero = () => {
                                           <h2>with our</h2>
                                           <h2 className="leading-[4rem] sm:leading-[1]"><span className='text-primary'>High</span> Quality <span className='text-primary'>Products</span></h2>
                                     </div>
-                                    <Link href={"/showroom"}>
+                                    <Link href={"/products"}>
                                           <button className='order_btn'>Order Now</button>
                                     </Link>
                               </div>

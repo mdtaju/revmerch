@@ -3,7 +3,6 @@ import "./globals.css";
 import { ibm_flex_mono } from "@/utils/fonts.config";
 import Footer from "@/components/reusable/Footer";
 import NextTopLoader from "nextjs-toploader";
-import QueryProvider from "@/components/provider/QueryProvider";
 import ReduxProvider from "@/components/provider/ReduxProvider";
 
 export const metadata = {
@@ -16,12 +15,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={ibm_flex_mono.className}>
         <ReduxProvider>
-          <QueryProvider>
-            <NextTopLoader color="#e32d2d" showSpinner={false} />
-            <Navbar />
-            {children}
-            <Footer />
-          </QueryProvider>
+          <NextTopLoader color="#e32d2d" showSpinner={false} />
+          <Navbar />
+          {children}
+          <Footer />
         </ReduxProvider>
       </body>
     </html>

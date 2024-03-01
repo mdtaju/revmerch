@@ -38,7 +38,6 @@ const CartProducts = () => {
                   grand_total: cartItems.cartTotal,
                   applied_promotion: promotion.code ? promotion.code : "Not-Applied"
             }).then(async () => {
-                  console.log(cartItems.cartArray)
                   const IDs = cartItems.cartArray.map(item => {
                         return item.id
                   })
@@ -65,11 +64,8 @@ const CartProducts = () => {
                                     />
                               ))
                         }
-                  </div>
-                  {/* promotions and total */}
-                  <div className="mt-[100px]">
                         {/* promotions */}
-                        <div>
+                        <div className="p-4 border-b border-primary">
                               <h1 className="text-3xl font-semibold">Promotion Code:</h1>
                               <div className="flex items-center gap-4 mt-2">
                                     <input value={inputPromotion} onChange={(e) => setInputPromotion(e.target.value)} type="text" name="" id="" className="bg-white border border-gray-400 p-1 px-3 text-black" placeholder="Enter a code" />
@@ -77,7 +73,7 @@ const CartProducts = () => {
                               </div>
                         </div>
                         {/* total */}
-                        <div className="flex flex-wrap gap-4 mt-[50px]">
+                        <div className="flex flex-wrap gap-4 mt-[50px] p-4 border-b border-primary">
                               <div className="bg-primary px-3 flex items-center">
                                     <h5 className="pr-2">Total to pay:</h5>
                                     <div className="py-3 pl-2 border-l border-white">{`${cartItems.cartTotal} DT`}</div>
@@ -86,6 +82,12 @@ const CartProducts = () => {
                               <button disabled={isLoading} onClick={handlePlaceOrder} className="order_btn text-sm bg-white text-primary">{isLoading ? "loading..." : "Order Now"}</button>
                         </div>
                   </div>
+                  {/* promotions and total */}
+                  {/* <div className="mt-[200px]">
+
+
+
+                  </div> */}
                   {/* dialog */}
                   {
                         orderSuccess &&

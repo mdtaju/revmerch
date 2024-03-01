@@ -102,7 +102,7 @@ const ProductCard = ({ product }) => {
                   {/* image container */}
                   <div className='w-full h-[238px] relative p-1'>
                         {/* image */}
-                        <Link href={`/showroom/${makingNameUrl}-${id}`}>
+                        <Link href={`/products/${makingNameUrl}-${id}`}>
                               <Image
                                     src={images[0]}
                                     alt={name}
@@ -156,7 +156,7 @@ const ProductCard = ({ product }) => {
                         }
                         <div>
                               <p className='text-[#979797] text-[10px]'>brand/category</p>
-                              <Link href={`/showroom/${makingNameUrl}-${id}`}>
+                              <Link href={`/products/${makingNameUrl}-${id}`}>
                                     <h2 className='text-2xl mb-0 hover:underline cursor-pointer line-clamp-2'>{name}</h2>
                               </Link>
                         </div>

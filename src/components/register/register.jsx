@@ -38,7 +38,7 @@ const Register = () => {
                                     email: inputs.email,
                                     name: inputs.name
                               })
-                              router.push("/showroom");
+                              router.push("/products");
                               setLoading(false);
                         }).catch(() => {
                               setError("Name or phone not added. Please, try again");
@@ -57,7 +57,7 @@ const Register = () => {
       function handleGoogleSignIn() {
             const provider = new GoogleAuthProvider();
             signInWithPopup(auth, provider).then(() => {
-                  router.push("/showroom")
+                  router.push("/products")
                   setError("")
             }).catch(() => {
                   setError("Something wrong with google login. Please try again")
